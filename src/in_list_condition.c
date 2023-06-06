@@ -61,17 +61,33 @@ char *create_value(char *line)
     return (value);
 }
 
-int in_list_condition(l_sbml **list, char **array) 
+bool is_tag_double(l_sbml* list, char* tag) 
 {
-    char *tag = NULL;
-    char *value = NULL;
+    l_sbml* current = list;
+    
+    while (current != NULL) {
+        if (strcmp(current->tag, tag) == 0) {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+int in_list_condition(l_sbml** list, char** array) 
+{
+    char* tag = NULL;
+    char* value = NULL;
 
     for (int i = 1; array[i]; i++) {
         if (array[i][0] == '<' && is_equal(array[i]) == true) {
             tag = create_tag(array[i]);
             value = create_value(array[i]);
-            insert_elem(list, tag, value);
+
+            if (is_tag_double(*list, tag) == false) {
+                insert_elem(list, tag, value);
+            }
         }
     }
-    return (0);
+    return 0;
 }

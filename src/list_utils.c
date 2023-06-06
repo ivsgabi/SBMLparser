@@ -39,7 +39,18 @@ bool insert_elem(l_sbml **list, char *tag, char *value)
     return (true);
 }
 
-void my_list_printer(l_sbml **list)
+void my_tag_printer(l_sbml **list)
+{
+    l_sbml *temp = *list;
+    while (temp != NULL) {
+        my_putstr(temp->tag);
+        my_putchar('\n');
+        temp = temp->next;
+    }
+    my_putchar('\n');
+}
+
+void my_value_printer(l_sbml **list)
 {
     l_sbml *temp = *list;
     while (temp != NULL) {

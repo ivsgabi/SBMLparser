@@ -45,9 +45,12 @@ char **my_str_to_word_array(char *str, char separator);
 
 void display_usage(void);
 
+l_sbml *create_elem(char *tag, char *value);
 bool insert_elem(l_sbml **list, char *tag, char *value);
-void my_list_printer(l_sbml **list);
+void my_tag_printer(l_sbml **list);
+void my_value_printer(l_sbml **list);
 
 int in_list_condition(l_sbml **list, char **array);
+int sbml_parser_base(l_sbml **list);
 
 #endif

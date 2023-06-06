@@ -27,8 +27,8 @@ char *open_read_file(char *str)
     if (read(fd, buffer, size.st_size) <= 0)
         return NULL;
     buffer[size.st_size] = '\0';
-    close(fd);
     return (buffer);
+    close(fd);
     free (buffer);
 }
 
