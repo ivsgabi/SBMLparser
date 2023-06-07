@@ -11,33 +11,6 @@
 #include <stddef.h>
 #include "parser.h"
 
-void alpha_sorting(l_sbml* list) 
-{
-    int swapped;
-    l_sbml *lptr = NULL;
-    l_sbml *ptr1;
-
-    if (list == NULL)
-        return;
-
-    swapped = 1;
-    while (swapped != 0) {
-        swapped = 0;
-        ptr1 = list;
-
-        while (ptr1->next != lptr) {
-            if (strcmp(ptr1->tag, ptr1->next->tag) > 0) {
-                char* temp = ptr1->tag;
-                ptr1->tag = ptr1->next->tag;
-                ptr1->next->tag = temp;
-                swapped = 1;
-            }
-            ptr1 = ptr1->next;
-        }
-        lptr = ptr1;
-    }
-}
-
 int sort_tag_nodes(l_sbml **list) 
 {
     if (*list == NULL || (*list)->next == NULL) {
@@ -72,52 +45,29 @@ char** value_parsing(char* value)
     char** array = NULL;
     char* copy = strdup(value);
     char* token = NULL;
-    int count = 0;
+    char *args = NULL;
+    int nb_lines = 0;
+    int j = 0;
+
+    for (int i = 0; value[i] != '\0'; i++) {
+        if (value[i] == '=') {
+            nb_lines++;
+        }
+    }
+
+    array = malloc(sizeof(char*) * (nb_lines + 1));
 
     while ((token = strsep(&copy, " \t")) != NULL) {
         if (strstr(token, "=") != NULL) {
-            char* attr = strtok(token, "=");
-            if (attr != NULL) {
-                array = (char**)realloc(array, sizeof(char*) * (count + 1));
-                array[count] = strdup(attr);
-                count++;
+            args = strtok(token, "=");
+            if (args != NULL) {
+                array[j] = strdup(args);
+                j++;
             }
         }
     }
-    array = (char**)realloc(array, sizeof(char*) * (count + 1));
-    array[count] = NULL;
-    free(copy);
+    array[j] = NULL;
     return (array);
-}
-
-
-void swap(char **str1, char **str2) 
-{
-    char *temp = *str1;
-    *str1 = *str2;
-    *str2 = temp;
-}
-
-char **sort_array(char **array) 
-{
-    if (array == NULL)
-        return NULL;
-    int count = 0;
-    while (array[count] != NULL) {
-        count++;
-    }
-
-    int sorted = 0;
-    while (!sorted) {
-        sorted = 1;
-        for (int i = 0; i < count - 1; i++) {
-            if (strcmp(array[i], array[i + 1]) > 0) {
-                swap(&array[i], &array[i + 1]);
-                sorted = 0;
-            }
-        }
-    }
-    return array;
 }
 
 int sbml_parser_base(l_sbml **list)

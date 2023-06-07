@@ -18,6 +18,7 @@ SRC		=	./src/main.c		\
 			./src/list_utils.c	\
 			./src/utils.c		\
 			./src/my_strstr.c	\
+			./src/values_sorting.c	\
 			./src/sbml_parser.c
 
 INC		=	include/my.h

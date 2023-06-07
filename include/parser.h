@@ -17,10 +17,10 @@ typedef struct l_sbml {
 } l_sbml;
 
 typedef struct sbml_t {
-    char *compartment_id; // ok
-    char *compartment_name; // ok
-    char *model_name; //ok
-    char *model_id; // ok
+    char *compartment_id;
+    char *compartment_name; 
+    char *model_name; 
+    char *model_id; 
     char *reaction_name;
     char *reaction_id;
     char *reaction_reversible;
@@ -52,5 +52,6 @@ void my_value_printer(l_sbml **list);
 
 int in_list_condition(l_sbml **list, char **array);
 int sbml_parser_base(l_sbml **list);
+char **sort_array(char **array);
 
 #endif
