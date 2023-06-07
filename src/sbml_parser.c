@@ -67,27 +67,76 @@ int sort_tag_nodes(l_sbml **list)
     return (0);
 }
 
+char** value_parsing(char* value)
+{
+    char** array = NULL;
+    char* copy = strdup(value);
+    char* token = NULL;
+    int count = 0;
+
+    while ((token = strsep(&copy, " \t")) != NULL) {
+        if (strstr(token, "=") != NULL) {
+            char* attr = strtok(token, "=");
+            if (attr != NULL) {
+                array = (char**)realloc(array, sizeof(char*) * (count + 1));
+                array[count] = strdup(attr);
+                count++;
+            }
+        }
+    }
+    array = (char**)realloc(array, sizeof(char*) * (count + 1));
+    array[count] = NULL;
+    free(copy);
+    return (array);
+}
+
+
+void swap(char **str1, char **str2) 
+{
+    char *temp = *str1;
+    *str1 = *str2;
+    *str2 = temp;
+}
+
+char **sort_array(char **array) 
+{
+    if (array == NULL)
+        return NULL;
+    int count = 0;
+    while (array[count] != NULL) {
+        count++;
+    }
+
+    int sorted = 0;
+    while (!sorted) {
+        sorted = 1;
+        for (int i = 0; i < count - 1; i++) {
+            if (strcmp(array[i], array[i + 1]) > 0) {
+                swap(&array[i], &array[i + 1]);
+                sorted = 0;
+            }
+        }
+    }
+    return array;
+}
 
 int sbml_parser_base(l_sbml **list)
 {
     sort_tag_nodes(list);
+    l_sbml *temp = *list;
+    char **sorted_attributes = NULL;
     
-    return (0);
-}
 
-//void bubble_sort(char* arr[], int n) 
-//{
-//    char* temp;
-//    int i = 0;,
-//    int j = 0;
-//
-//    for (i = 0; i < n-1; i++) {
-//        for (j = 0; j < n-i-1; j++) {
-//            if (strcmp(arr[j], arr[j+1]) > 0) {
-//                temp = arr[j];
-//                arr[j] = arr[j+1];
-//                arr[j+1] = temp;
-//            }
-//        }
-//    }
-//}
+    while (temp != NULL) {
+        printf("%s\n", temp->tag);
+        sorted_attributes = value_parsing(temp->value);
+        sorted_attributes = sort_array(sorted_attributes);
+        if (sorted_attributes == NULL)
+            return (84);
+        for (int i = 0; sorted_attributes[i]; i++) {
+            printf("--->%s\n", sorted_attributes[i]);
+        }
+        temp = temp->next;
+    }
+    return 0;
+}

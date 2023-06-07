@@ -26,8 +26,8 @@ int main(int argc, char **argv)
         return (84);
 
     in_list_condition(&list, array);
+    //my_tag_printer(&list);
+    //my_value_printer(&list);
     sbml_parser_base(&list);
-    my_tag_printer(&list);
-    my_value_printer(&list);
     return (0);
 }

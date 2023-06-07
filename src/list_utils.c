@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include <string.h> // temporary
+#include <string.h>
 #include "parser.h"
 
 l_sbml *create_elem(char *tag, char *value)
@@ -42,6 +42,7 @@ bool insert_elem(l_sbml **list, char *tag, char *value)
 void my_tag_printer(l_sbml **list)
 {
     l_sbml *temp = *list;
+    
     while (temp != NULL) {
         my_putstr(temp->tag);
         my_putchar('\n');
